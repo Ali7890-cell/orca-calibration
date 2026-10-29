@@ -1,0 +1,1275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>How to Optimise Orca Slicer Settings for Filaments</title>
+  <meta name="description" content="Learn how to optimise Orca Slicer settings for PLA, PETG, ABS, ASA, TPU and nylon with practical temperature, cooling, flow and speed tips.">
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="Orca Slicer settings, optimise Orca Slicer, filament settings, PLA settings, PETG settings, ABS settings, 3D printing calibration">
+
+  <style>
+    :root {
+      --ink: #242820;
+      --muted: #62685e;
+      --paper: #f8f7f1;
+      --card: #ffffff;
+      --line: #e2e3d9;
+      --amber: #e9a23b;
+      --amber-dark: #9b5c08;
+      --mint: #cce9d8;
+      --green: #315b46;
+      --dark: #252a25;
+      --soft: #f2ead9;
+      --radius: 18px;
+      --shadow: 0 12px 32px rgba(36, 40, 32, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    a:hover {
+      color: var(--amber-dark);
+    }
+
+    .page-shell {
+      width: min(1100px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: var(--amber);
+      color: var(--dark);
+      font-size: 20px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin: 32px auto;
+      padding: clamp(32px, 7vw, 76px);
+      border-radius: 28px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(233, 162, 59, 0.24), transparent 30%),
+        linear-gradient(135deg, #252a25 0%, #37483b 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -75px;
+      bottom: -110px;
+      width: 280px;
+      height: 280px;
+      border: 35px solid rgba(204, 233, 216, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      color: #f6d7a2;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+    }
+
+    h1 {
+      max-width: 800px;
+      margin: 0 0 22px;
+      font-size: clamp(34px, 5.4vw, 58px);
+    }
+
+    .hero p {
+      max-width: 740px;
+      margin: 0;
+      color: #e7eae4;
+      font-size: 18px;
+    }
+
+    .hero-note {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .hero-note span {
+      padding: 8px 13px;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.1);
+      font-size: 13px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+
+    main, aside {
+      min-width: 0;
+    }
+
+    .article-card, .toc, .side-card {
+      padding: clamp(22px, 4vw, 34px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .article-card section + section {
+      margin-top: 45px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: clamp(25px, 3vw, 34px);
+    }
+
+    h3 {
+      margin: 25px 0 10px;
+      font-size: 21px;
+    }
+
+    p {
+      margin: 0 0 17px;
+    }
+
+    .section-label {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--amber-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .intro-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-left: 5px solid var(--amber);
+      border-radius: 0 12px 12px 0;
+      background: var(--soft);
+    }
+
+    .intro-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .toc {
+      position: sticky;
+      top: 18px;
+      padding: 24px;
+    }
+
+    .toc h2 {
+      font-size: 21px;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .toc li {
+      margin: 9px 0;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .side-card {
+      margin-top: 18px;
+      padding: 23px;
+      background: var(--mint);
+      box-shadow: none;
+    }
+
+    .side-card h3 {
+      margin-top: 0;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 23px 0;
+    }
+
+    .profile-card {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fffefa;
+    }
+
+    .profile-card .symbol {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 13px;
+      border-radius: 12px;
+      background: var(--mint);
+      font-size: 21px;
+    }
+
+    .profile-card h3 {
+      margin: 0 0 9px;
+      font-size: 19px;
+    }
+
+    .profile-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .table-wrap {
+      margin: 24px 0;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--dark);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f8f8f2;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .tip {
+      margin: 22px 0;
+      padding: 20px 22px;
+      border: 1px solid #c5e0cf;
+      border-radius: 14px;
+      background: #edf7f0;
+    }
+
+    .tip strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--green);
+    }
+
+    .steps {
+      counter-reset: step;
+      margin: 25px 0;
+    }
+
+    .step {
+      position: relative;
+      margin: 0 0 15px;
+      padding: 20px 20px 20px 70px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      top: 20px;
+      left: 19px;
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--amber);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .step p {
+      margin-bottom: 0;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .faq {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .faq:last-child {
+      border-bottom: 0;
+    }
+
+    .faq h3 {
+      margin: 0 0 9px;
+      font-size: 19px;
+    }
+
+    .faq p {
+      margin-bottom: 0;
+    }
+
+    .related-panel {
+      margin-top: 28px;
+      padding: 24px;
+      border-radius: 16px;
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .related-panel h3 {
+      margin-top: 0;
+      color: #f5cc8a;
+    }
+
+    .related-panel p:last-child {
+      margin-bottom: 0;
+    }
+
+    .related-panel a {
+      color: #cce9d8;
+    }
+
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+      background: #eeeee6;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .toc {
+        position: static;
+        order: -1;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .page-shell {
+        width: min(100% - 22px, 1100px);
+      }
+
+      .hero {
+        margin-top: 16px;
+        padding: 29px 22px;
+        border-radius: 20px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .article-card, .toc {
+        padding: 21px 17px;
+      }
+
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      th, td {
+        padding: 11px;
+      }
+
+      .step {
+        padding: 66px 17px 18px;
+      }
+
+      .step::before {
+        top: 16px;
+        left: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="page-shell">
+      <div class="brand">
+        <span class="brand-mark">3D</span>
+        <span>Practical 3D Printing Guide</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-shell">
+    <section class="hero">
+      <span class="eyebrow">Filament calibration handbook</span>
+      <h1>How to Optimise Orca Slicer Settings for Different Filaments</h1>
+      <p>
+        Learn how to tune nozzle temperature, bed heat, cooling, flow and print
+        speed for different 3D printing materials. A practical approach helps
+        reduce failed prints and produce more consistent results.
+      </p>
+      <div class="hero-note">
+        <span>PLA and PETG</span>
+        <span>ABS and ASA</span>
+        <span>TPU and Nylon</span>
+        <span>Calibration tips</span>
+      </div>
+    </section>
+
+    <div class="layout">
+      <main>
+        <article class="article-card">
+
+          <section id="introduction">
+            <span class="section-label">01 / Getting started</span>
+            <h2>Introduction</h2>
+            <p>
+              Choosing the right filament is only one part of successful 3D
+              printing. The material must also be processed with suitable
+              temperatures, cooling behaviour, extrusion settings and speed
+              limits. A profile that works well for one spool may not deliver
+              the same results with another, even when both spools carry the
+              same material label.
+            </p>
+            <p>
+              <a href="https://orcasslicer.com/" target="_blank" rel="noopener noreferrer">orcaslicer</a>
+              provides a collection of settings that can be adjusted to match
+              your printer and filament. Its material profiles help organise
+              important parameters, including nozzle temperature, bed
+              temperature, cooling, flow ratio and maximum volumetric speed.
+              Understanding these options makes it easier to diagnose print
+              defects instead of changing settings at random.
+            </p>
+            <p>
+              This guide explains how to build a repeatable workflow for common
+              materials. The suggested temperature ranges are starting points,
+              not universal prescriptions. Always check the manufacturer's
+              recommendations and your printer's capabilities before running
+              a test.
+            </p>
+
+            <div class="intro-box">
+              <p><strong>The main principle:</strong> Change one setting at a
+              time, print a suitable calibration model, record the result and
+              save the settings only after they produce reliable results.</p>
+            </div>
+          </section>
+
+          <section id="settings">
+            <span class="section-label">02 / Know your controls</span>
+            <h2>Which Orca Slicer Settings Matter Most?</h2>
+            <p>
+              Filament settings describe how a material behaves during
+              printing. Process settings control how the model is constructed,
+              while printer settings describe the machine itself. Keeping
+              these categories separate helps you identify which adjustment
+              is likely to solve a particular problem.
+            </p>
+
+            <div class="profile-grid">
+              <div class="profile-card">
+                <div class="symbol">♨</div>
+                <h3>Nozzle Temperature</h3>
+                <p>
+                  Controls how readily the filament melts and flows through
+                  the hotend. Incorrect heat can cause poor bonding,
+                  stringing or inconsistent extrusion.
+                </p>
+              </div>
+
+              <div class="profile-card">
+                <div class="symbol">▤</div>
+                <h3>Bed Temperature</h3>
+                <p>
+                  Supports first-layer adhesion and helps manage material
+                  contraction. The correct value depends on the filament
+                  and build-plate surface.
+                </p>
+              </div>
+
+              <div class="profile-card">
+                <div class="symbol">❄</div>
+                <h3>Cooling</h3>
+                <p>
+                  Affects overhangs, bridges, layer bonding and the cooling
+                  time available to small features.
+                </p>
+              </div>
+
+              <div class="profile-card">
+                <div class="symbol">↗</div>
+                <h3>Flow and Speed</h3>
+                <p>
+                  Flow ratio fine-tunes extrusion volume, while volumetric
+                  speed limits help prevent the hotend from being asked to
+                  melt material faster than it can manage.
+                </p>
+              </div>
+            </div>
+
+            <p>
+              Start with the correct printer and nozzle profile, then choose
+              a filament preset that matches the material and manufacturer.
+              Avoid changing unrelated motion, acceleration or retraction
+              values before checking the material's basic behaviour.
+            </p>
+          </section>
+
+          <section id="comparison">
+            <span class="section-label">03 / Material overview</span>
+            <h2>Starting Settings for Common Filaments</h2>
+            <p>
+              The following table offers approximate starting points for
+              typical consumer FDM printers. Specific formulations, nozzle
+              types, build plates and printer designs can require different
+              values. Use the filament label and technical data sheet as
+              your primary reference.
+            </p>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Material</th>
+                    <th>Nozzle</th>
+                    <th>Bed</th>
+                    <th>Cooling</th>
+                    <th>Main consideration</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>PLA</td>
+                    <td>190–220°C</td>
+                    <td>45–65°C</td>
+                    <td>Usually high</td>
+                    <td>Good cooling and first-layer adhesion</td>
+                  </tr>
+                  <tr>
+                    <td>PETG</td>
+                    <td>230–250°C</td>
+                    <td>65–85°C</td>
+                    <td>Low to moderate</td>
+                    <td>Stringing, moisture and surface adhesion</td>
+                  </tr>
+                  <tr>
+                    <td>ABS</td>
+                    <td>240–260°C</td>
+                    <td>90–110°C</td>
+                    <td>Usually low</td>
+                    <td>Enclosure and warping control</td>
+                  </tr>
+                  <tr>
+                    <td>ASA</td>
+                    <td>240–265°C</td>
+                    <td>90–110°C</td>
+                    <td>Usually low</td>
+                    <td>Stable temperature and ventilation</td>
+                  </tr>
+                  <tr>
+                    <td>TPU</td>
+                    <td>210–240°C</td>
+                    <td>30–60°C</td>
+                    <td>Low to moderate</td>
+                    <td>Slow, controlled extrusion</td>
+                  </tr>
+                  <tr>
+                    <td>Nylon</td>
+                    <td>240–280°C</td>
+                    <td>70–100°C</td>
+                    <td>Usually low</td>
+                    <td>Dry filament and suitable hardware</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="tip">
+              <strong>Important safety note</strong>
+              These are broad illustrative ranges. Some specialty materials
+              require temperatures outside them. Confirm the manufacturer's
+              limits, check the printer's hotend and bed capabilities, and
+              never exceed the rated operating limits of your equipment.
+            </div>
+          </section>
+
+          <section id="pla">
+            <span class="section-label">04 / Easy everyday printing</span>
+            <h2>Optimising Settings for PLA</h2>
+            <p>
+              PLA is often a sensible material for beginners because it
+              generally prints without the high chamber temperatures needed
+              by some engineering plastics. It works well for prototypes,
+              decorative objects, models and many household parts that do not
+              face high temperatures.
+            </p>
+
+            <h3>Temperature and first-layer adhesion</h3>
+            <p>
+              Begin with the filament manufacturer's recommended nozzle
+              temperature. If the nozzle is too cool, extrusion may become
+              inconsistent and layers may bond poorly. Excessive heat can
+              increase stringing, soften fine details or make the surface
+              look rough. A temperature tower can help identify a suitable
+              range when the preset does not match the spool.
+            </p>
+            <p>
+              Choose a bed temperature suitable for your build plate and
+              filament. A clean surface and a correctly levelled bed often
+              matter more than making repeated temperature adjustments.
+              The first layer should be firmly attached without being
+              excessively compressed.
+            </p>
+
+            <h3>Cooling and print speed</h3>
+            <p>
+              PLA usually benefits from strong part cooling after the first
+              layers. Adequate cooling improves bridges, overhangs and small
+              features. However, cooling behaviour should still be adjusted
+              for the model: a small component may need slower printing so
+              each layer has enough time to solidify.
+            </p>
+            <p>
+              If the printer produces clean walls at the selected speed,
+              there is no need to raise speed simply because the machine
+              supports a higher advertised maximum. Test speed and
+              volumetric flow separately to avoid confusing motion limits
+              with the filament's melting capacity.
+            </p>
+          </section>
+
+          <section id="petg">
+            <span class="section-label">05 / Durable everyday parts</span>
+            <h2>Optimising Settings for PETG</h2>
+            <p>
+              PETG is commonly selected for functional components that need
+              a useful balance of toughness and flexibility. It can produce
+              strong prints, but its tendency to form strings and stick
+              strongly to some surfaces means it often needs a different
+              setup from PLA.
+            </p>
+
+            <h3>Find the right temperature</h3>
+            <p>
+              Start with the spool's recommended nozzle and bed temperatures.
+              If layers look weak or extrusion is inconsistent, check whether
+              the nozzle temperature is appropriate before changing flow
+              ratio. If the print develops excessive strings or blobs, test
+              a small temperature reduction within the manufacturer's range.
+            </p>
+
+            <h3>Manage stringing and cooling</h3>
+            <p>
+              Moisture is a common cause of PETG printing problems. A damp
+              spool may produce popping sounds, bubbles, rough surfaces and
+              fine strings. Dry it according to the filament manufacturer's
+              instructions and store it in suitable dry conditions.
+            </p>
+            <p>
+              Moderate part cooling is a useful starting point, but the best
+              fan level depends on the model and filament formulation.
+              Excessive cooling may reduce layer bonding, while too little
+              can affect bridges and small details. Tune cooling and
+              retraction independently instead of changing several controls
+              at once.
+            </p>
+
+            <div class="tip">
+              <strong>Protect your build plate</strong>
+              PETG can bond aggressively to certain smooth surfaces. Check
+              the plate manufacturer's guidance and use an appropriate
+              release layer when recommended. Do not force a strongly
+              attached print off a plate.
+            </div>
+          </section>
+
+          <section id="abs-asa">
+            <span class="section-label">06 / Engineering materials</span>
+            <h2>Optimising Settings for ABS and ASA</h2>
+            <p>
+              ABS and ASA can be useful for functional parts, particularly
+              when greater heat resistance is required than ordinary PLA
+              provides. Both materials can shrink during cooling, making
+              them more challenging to print without warping or corner lift.
+              ASA is also commonly chosen for outdoor applications because
+              of its weathering resistance.
+            </p>
+
+            <h3>Control the printing environment</h3>
+            <p>
+              Use the temperature range specified for the particular spool,
+              and confirm that your printer can safely reach the required
+              nozzle and bed temperatures. An appropriate enclosure can
+              reduce uneven cooling and improve dimensional stability.
+              Do not assume every printer or hotend is suitable for these
+              materials.
+            </p>
+
+            <h3>Reduce warping and layer separation</h3>
+            <p>
+              Keep the build surface clean and use a suitable plate
+              preparation method. A brim may improve corner adhesion on
+              parts with a small contact area. Avoid strong part cooling
+              unless the filament manufacturer or a tested profile calls
+              for it.
+            </p>
+            <p>
+              ABS and ASA printing can release irritating or potentially
+              harmful emissions. Follow the manufacturer's safety guidance,
+              provide appropriate ventilation or filtration, and avoid
+              operating an enclosed printer in an unsuitable space.
+              Keep the machine away from children and flammable materials.
+            </p>
+          </section>
+
+          <section id="tpu">
+            <span class="section-label">07 / Flexible printing</span>
+            <h2>Optimising Settings for TPU</h2>
+            <p>
+              TPU is a flexible filament used for protective covers, grips,
+              feet, seals and other parts that need to bend. Its flexibility
+              can make extrusion more sensitive to speed, the filament path
+              and the printer's extruder design.
+            </p>
+
+            <h3>Start slowly</h3>
+            <p>
+              Select a profile that matches the TPU hardness and your
+              printer. Begin with a conservative print speed and the
+              manufacturer's recommended nozzle temperature. A direct-drive
+              extruder often handles flexible filament more easily than a
+              long Bowden path, although the result depends on the
+              particular machine.
+            </p>
+
+            <h3>Review retraction and flow</h3>
+            <p>
+              Excessive retraction can make flexible filament buckle or
+              feed inconsistently. Start with the material profile's
+              settings, then test modest changes if stringing occurs.
+              Check the filament path for unnecessary gaps or obstructions.
+            </p>
+            <p>
+              TPU may also benefit from limited acceleration and controlled
+              extrusion. If the surface looks uneven, inspect the spool,
+              feeding path, nozzle condition and moisture level before
+              increasing flow. Make sure the final settings preserve the
+              flexibility required by the finished part.
+            </p>
+          </section>
+
+          <section id="nylon">
+            <span class="section-label">08 / Advanced materials</span>
+            <h2>Optimising Settings for Nylon</h2>
+            <p>
+              Nylon is valued for toughness and wear resistance, but it can
+              be more demanding than PLA or PETG. Different nylon blends
+              have different temperature requirements, and moisture
+              absorption can quickly affect print quality.
+            </p>
+
+            <h3>Dry the filament properly</h3>
+            <p>
+              Use the drying temperature and duration specified by the
+              filament manufacturer. Do not assume that a spool is dry
+              simply because it is new. Moisture can contribute to bubbles,
+              rough surfaces, weak bonding and inconsistent extrusion.
+              Store the material in a dry environment after preparation.
+            </p>
+
+            <h3>Match the printer to the material</h3>
+            <p>
+              Check the required nozzle temperature, bed temperature and
+              chamber conditions against your printer's capabilities.
+              Some nylon blends need higher temperatures or specialised
+              hardware. A stable environment helps limit warping, while
+              a compatible build surface supports first-layer adhesion.
+            </p>
+            <p>
+              Avoid using a generic nylon profile without checking the
+              specific blend. Filled nylon, such as carbon-fibre-reinforced
+              varieties, may require a wear-resistant nozzle and other
+              machine-specific precautions. Follow the filament supplier's
+              recommendations.
+            </p>
+          </section>
+
+          <section id="calibration">
+            <span class="section-label">09 / Repeatable results</span>
+            <h2>Step-by-Step Filament Calibration Workflow</h2>
+            <p>
+              A consistent testing routine is more reliable than copying
+              another printer's values. Work through the following steps
+              whenever you introduce a new material or discover that an
+              existing profile no longer performs as expected.
+            </p>
+
+            <div class="steps">
+              <div class="step">
+                <h3>Identify the exact filament</h3>
+                <p>
+                  Record the material type, brand, product name and any
+                  special formulation. Read the recommended temperature
+                  range and drying instructions on the packaging or
+                  manufacturer's documentation.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Choose a compatible printer profile</h3>
+                <p>
+                  Verify the printer model, nozzle diameter, build plate
+                  and extruder configuration. These machine details should
+                  match the hardware before you begin tuning material
+                  parameters.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Start with a suitable filament preset</h3>
+                <p>
+                  Select the closest available material profile. If no
+                  suitable preset exists, duplicate a compatible profile
+                  rather than overwriting a default that you may need later.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Run a temperature test</h3>
+                <p>
+                  Use a temperature tower or another controlled test to
+                  compare surface quality, stringing and layer adhesion.
+                  Keep the tested range within the manufacturer's limits.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Calibrate flow ratio</h3>
+                <p>
+                  Use the appropriate flow calibration procedure and inspect
+                  the test result carefully. Adjust flow only after checking
+                  for nozzle problems, incorrect temperatures or other
+                  extrusion issues that could distort the test.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Check maximum volumetric speed</h3>
+                <p>
+                  Increase extrusion demand gradually with a suitable test.
+                  Look for under-extrusion and inconsistent lines. Set a
+                  practical limit below the point where quality begins to
+                  deteriorate.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Fine-tune cooling and retraction</h3>
+                <p>
+                  Test overhangs and travel moves after establishing a
+                  reasonable temperature and flow baseline. Change one
+                  variable at a time so you can tell which adjustment
+                  improved the result.
+                </p>
+              </div>
+
+              <div class="step">
+                <h3>Print a real-world sample and save</h3>
+                <p>
+                  Print a representative object with walls, corners,
+                  overhangs and small details. Record the final settings,
+                  name the profile clearly and preserve an untouched copy
+                  of the original preset.
+                </p>
+              </div>
+            </div>
+
+            <p>
+              For additional background on preparing a model before tuning
+              its material profile, see this
+              <a href="https://how-to-import-and-slice-3d-models.pages.dev/" target="_blank" rel="noopener noreferrer">guide to importing and slicing 3D models</a>.
+              Starting with a correctly oriented and prepared model makes
+              it easier to compare calibration prints consistently.
+            </p>
+          </section>
+
+          <section id="troubleshooting">
+            <span class="section-label">10 / Diagnose the result</span>
+            <h2>Common Filament Problems and Their Solutions</h2>
+
+            <h3>Stringing between printed parts</h3>
+            <p>
+              Fine strings can result from moisture, excessive nozzle
+              temperature or unsuitable travel and retraction settings.
+              Dry the filament if necessary, test temperature within the
+              recommended range and then adjust retraction cautiously.
+              Avoid assuming that one retraction value will work for every
+              material.
+            </p>
+
+            <h3>Weak layer adhesion</h3>
+            <p>
+              Poor bonding may indicate insufficient nozzle heat, excessive
+              cooling, damp filament or an incompatible material profile.
+              Check these factors before raising the temperature. If the
+              material requires an enclosure, an unstable environment may
+              also contribute to separation.
+            </p>
+
+            <h3>Warping and lifted corners</h3>
+            <p>
+              Warping often occurs when different areas of a print cool and
+              contract unevenly. Check the build plate, first-layer
+              conditions and recommended bed temperature. A brim may help
+              parts with narrow contact areas, while ABS and ASA often
+              benefit from a suitable enclosure.
+            </p>
+
+            <h3>Gaps or under-extrusion</h3>
+            <p>
+              Check for a partially blocked nozzle, feeding resistance,
+              unsuitable temperature and a volumetric speed limit that is
+              too high for the material. Confirm that the filament is dry
+              where required. Calibrate flow only after mechanical and
+              thermal issues have been ruled out.
+            </p>
+
+            <h3>Rough surfaces and blobs</h3>
+            <p>
+              Inspect the nozzle, filament condition, temperature and
+              pressure-related settings. Moisture can cause surface defects,
+              while excessive heat may increase oozing. Make controlled
+              changes and compare the results on a repeatable test object.
+            </p>
+          </section>
+
+          <section id="profiles">
+            <span class="section-label">11 / Keep settings organised</span>
+            <h2>How to Manage and Maintain Filament Profiles</h2>
+            <p>
+              Good profile management saves time when switching between
+              materials. Give each profile a clear name that identifies
+              the material, brand or formulation, and any important
+              hardware detail. Avoid using vague names such as "New
+              Profile" that become difficult to distinguish later.
+            </p>
+            <p>
+              Keep separate profiles for materials that need meaningfully
+              different settings. Two PLA spools may have different
+              temperature or flow requirements, while a filled engineering
+              filament can require a different nozzle from an unfilled
+              version. Do not assume that colour alone determines the
+              correct profile.
+            </p>
+            <p>
+              Make a backup before substantial edits and keep a short
+              record of calibration results. If a change makes prints
+              worse, the record helps you restore the last reliable
+              configuration rather than starting again.
+            </p>
+            <p>
+              For further notes on organising slicer settings and related
+              configuration concepts, consult this
+              <a href="https://orca-slicer-guide.bitbucket.io/" target="_blank" rel="noopener noreferrer">Orca Slicer configuration guide</a>.
+              Use any external advice as a reference, and verify the
+              recommendations against your printer, filament and
+              software version.
+            </p>
+            <p>
+              A useful final check is to review the printer, filament and
+              process profiles together. Material temperature and cooling
+              belong to the filament configuration, while layer height,
+              walls, infill and many model-specific decisions are controlled
+              through the process profile. The machine profile describes
+              the hardware and its limits.
+            </p>
+            <p>
+              You can also keep your own notes and profile-related resources
+              in one place with this
+              <a href="https://louis1.codeberg.page/orca-profiles/" target="_blank" rel="noopener noreferrer">Orca profiles reference page</a>.
+              Treat saved profiles as starting points that should be
+              validated on your own printer, rather than guaranteed
+              settings for every machine.
+            </p>
+          </section>
+
+          <section id="best-practices">
+            <span class="section-label">12 / Practical checklist</span>
+            <h2>Best Practices for Reliable Printing</h2>
+            <ul>
+              <li>Follow the filament manufacturer's temperature and drying recommendations.</li>
+              <li>Confirm that the nozzle, bed and printer are rated for the material.</li>
+              <li>Check first-layer adhesion before adjusting advanced settings.</li>
+              <li>Change one parameter at a time and keep notes on each test.</li>
+              <li>Use calibration models that reveal the problem you are investigating.</li>
+              <li>Keep moisture-sensitive filament stored in suitable dry conditions.</li>
+              <li>Save a tested profile separately from the original preset.</li>
+              <li>Use proper ventilation and follow safety guidance for engineering materials.</li>
+              <li>Do not confuse a printer's maximum motion speed with a filament's melting capacity.</li>
+            </ul>
+            <p>
+              These habits make calibration more repeatable and reduce the
+              risk of chasing one defect by creating another. They also
+              make it easier to return to a known-good configuration when
+              experimenting with a new material or print design.
+            </p>
+          </section>
+
+          <section id="faq">
+            <span class="section-label">13 / Frequently asked questions</span>
+            <h2>FAQs About Orca Slicer Filament Settings</h2>
+
+            <div class="faq">
+              <h3>What is the best temperature for PLA in Orca Slicer?</h3>
+              <p>
+                A typical PLA starting range is around 190–220°C for the
+                nozzle and 45–65°C for the bed, but the correct values depend
+                on the spool and build plate. Follow the manufacturer's
+                recommendation and use a temperature test when necessary.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>Why does PETG create strings during printing?</h3>
+              <p>
+                Stringing can be caused by moisture, excessive temperature
+                or unsuitable retraction and travel settings. Dry the
+                filament according to its instructions, establish a suitable
+                temperature and then test retraction changes carefully.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>Should I use the same cooling settings for every filament?</h3>
+              <p>
+                No. PLA generally tolerates strong cooling, while ABS and
+                ASA often need limited part cooling to reduce warping and
+                preserve layer bonding. PETG, TPU and nylon require
+                material-specific testing.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>What does flow ratio do?</h3>
+              <p>
+                Flow ratio adjusts the amount of material extruded relative
+                to the slicer's calculated extrusion. Calibrate it with an
+                appropriate test after checking nozzle condition, material
+                temperature and other extrusion-related issues.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>Can I use one filament profile for different brands?</h3>
+              <p>
+                Sometimes, particularly when the materials behave similarly.
+                However, different brands and formulations can require
+                different temperatures, cooling or flow settings. Test each
+                spool rather than assuming that a shared material label
+                guarantees identical results.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>How often should I recalibrate a filament profile?</h3>
+              <p>
+                Recheck the profile when changing material formulations,
+                making significant hardware changes or noticing persistent
+                quality problems. Routine calibration is also useful when
+                testing a new spool or when conditions affecting the
+                filament have changed.
+              </p>
+            </div>
+
+            <div class="faq">
+              <h3>Does a higher print speed always reduce print quality?</h3>
+              <p>
+                Not necessarily. The result depends on the printer, model,
+                material and hotend capacity. Excessive speed can cause
+                under-extrusion or surface defects, so test practical limits
+                rather than relying only on the printer's advertised speed.
+              </p>
+            </div>
+          </section>
+
+          <section id="conclusion">
+            <span class="section-label">14 / Final thoughts</span>
+            <h2>Build a Filament Profile That Works for Your Printer</h2>
+            <p>
+              Optimising filament settings in Orca Slicer is a process of
+              controlled testing, observation and refinement. PLA, PETG,
+              ABS, ASA, TPU and nylon respond differently to heat, cooling,
+              moisture and extrusion demands. A carefully selected starting
+              profile gives you a useful foundation, but calibration
+              confirms whether it suits your actual setup.
+            </p>
+            <p>
+              Begin with the manufacturer's recommendations, verify that
+              your printer supports the material, and test temperature,
+              flow and cooling in a logical order. Record the results and
+              preserve profiles that consistently produce good prints.
+              Over time, this approach creates a reliable library of
+              material settings and makes switching between filaments
+              much more straightforward.
+            </p>
+
+            <div class="related-panel">
+              <h3>A more repeatable printing workflow</h3>
+              <p>
+                The best profile is not necessarily the fastest or the one
+                with the most adjustments. It is the profile that delivers
+                consistent quality, suitable strength and reliable results
+                within the safe operating limits of your printer and
+                filament.
+              </p>
+            </div>
+          </section>
+
+        </article>
+      </main>
+
+      <aside>
+        <nav class="toc" aria-label="Table of contents">
+          <h2>On This Page</h2>
+          <ol>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#settings">Important Settings</a></li>
+            <li><a href="#comparison">Filament Comparison</a></li>
+            <li><a href="#pla">PLA Settings</a></li>
+            <li><a href="#petg">PETG Settings</a></li>
+            <li><a href="#abs-asa">ABS and ASA</a></li>
+            <li><a href="#tpu">TPU Settings</a></li>
+            <li><a href="#nylon">Nylon Settings</a></li>
+            <li><a href="#calibration">Calibration Workflow</a></li>
+            <li><a href="#troubleshooting">Troubleshooting</a></li>
+            <li><a href="#profiles">Profile Management</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+            <li><a href="#faq">FAQs</a></li>
+            <li><a href="#conclusion">Conclusion</a></li>
+          </ol>
+        </nav>
+
+        <div class="side-card">
+          <h3>Remember</h3>
+          <p>
+            Change one setting at a time. Small, documented tests make
+            it easier to understand why a print improves or fails.
+          </p>
+        </div>
+
+        <div class="side-card">
+          <h3>Before You Print</h3>
+          <p>
+            Check the spool label, printer limits, build plate compatibility
+            and any drying instructions. Use manufacturer guidance for
+            specialty materials.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer>
+    <div class="page-shell">
+      <p>Practical 3D Printing Guide · Filament Settings and Calibration</p>
+      <p>Always verify material recommendations against the manufacturer's documentation and your printer's specifications.</p>
+    </div>
+  </footer>
+</body>
+</html>
